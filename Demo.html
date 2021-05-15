@@ -1,0 +1,3240 @@
+<html>
+   <head>
+      
+      <style>
+         #zk_proc {
+         visibility: inherit;
+         position: fixed;
+         z-index: 999;
+         overflow: show;
+         margin: auto;
+         top: 0;
+         left: 0;
+         bottom: 0;
+         right: 0;
+         }
+         #zk_proc::before {
+         content: '';
+         display: block;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.3);
+         } 
+      </style>
+      <style media="screen"> .panel-general {
+         border: 1px #dbe7ea solid;
+         }
+         .mayusculas {
+         text-transform: uppercase;
+         font-size: 12px;
+         }
+         .mayusculas-black {
+         text-transform: uppercase;
+         font-size: 12px;
+         color: #000000;
+         }
+         .transparente {
+         background: transparent !important;
+         }
+         .negrita {
+         font-weight: bold;
+         }
+         .panel-general, .titulo-span {
+         width: 100%
+         }
+         .alineamiento-vertical-centro {
+         vertical-align: middle;
+         }
+         .titulo-span {
+         display: block;
+         font-weight: bold;
+         }
+         .subtitulo-span {
+         background-color: rgb(44, 82, 124);
+         text-align: center;
+         color: #FFF;
+         padding: 5px 0px;
+         font-size: 16px;
+         }
+         .subtitulo-panel, .vectores-contenedor-tabla.subtitulo-panel,
+         .pago-obligaciones-abiertas-contenedor-tabla.subtitulo-panel,
+         .pago-obligaciones-cerradas-contenedor-tabla.subtitulo-panel,
+         .consultas-contenedor-tabla.subtitulo-panel,
+         .consultas-contenedor-tabla-fechas.subtitulo-panel, .tabla.subtitulo-panel
+         {
+         background: #f0efef;
+         color: #413e86;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .vectores-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 20% 10% 4% 6% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .grid-item-align-center {
+         align-self: center;
+         font-size: 12px;
+         }
+         .grid-item-align-left {
+         align-self: center;
+         text-align: left;
+         }
+         .subtitulo-panel.vectores-contenedor-tabla>* {
+         background: inherit;
+         }
+         .vectores-contenedor-tabla>*,
+         .pago-obligaciones-abiertas-contenedor-tabla.contenido-tabla>*,
+         .pago-obligaciones-cerradas-contenedor-tabla.contenido-tabla>*,
+         .tabla-fondo-blanco>* {
+         background: #fff;
+         font-size: 12px;
+         }
+         .vectores-tabla-datos {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(24, 1fr);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         }
+         .vectores-tabla-datos-titulo {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(24, 1fr);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         }
+         .vectores-tabla-datos>* {
+         background: #fff;
+         }
+         .subtitulo-panel.vectores-contenedor-tabla .vectores-tabla-datos>* {
+         background: inherit;
+         }
+         .subtitulo-panel .z-label {
+         font-weight: bold;
+         font-size: inherit;
+         }
+         .moras {
+         grid-column: 1/5;
+         }
+         .pago-obligaciones-abiertas-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 7% 3% 8% repeat(7, 7%) 4% 5% 5% 18%;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 10% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla .entidad {
+         grid-row-end: span 3;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 10% 7% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas.totales-cuentas {
+         grid-column-start: 2;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas.totales-cuentas .primera-columna {
+         grid-column: 1/3;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas-valores {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 28% repeat(7, 1fr);
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         font-size: 12px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-totales-sector{
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 10% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 1px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas-totales-sector {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 10% 7% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 1px;
+         }
+         .porcentaje-moras-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 25% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .porcentaje-moras-contenedor-tabla-cuentas-valores {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(6, 1fr);
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         font-size: 12px;
+         }
+         .porcentaje-moras-contenedor-tabla-totales{
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 25% auto;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 1px;
+         }
+         .pago-obligaciones-cerradas-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 9% 4% 8% repeat(2, 7%) 9% repeat(3, 7%) 4% 8% 22%;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .consultas-contenedor-tabla {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 28% 72%;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .consultas-contenedor-tabla-fechas {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(6, 17%);
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .tabla-resumen-habito-pago {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 20px;
+         row-gap: 1px;
+         grid-auto-rows: minmax(30px, auto);
+         }
+         .tabla-resumen-cuentas {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: 80% 20%;
+         grid-auto-rows: minmax(30px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         border: 1px solid #dbe7ea;
+         font-size: 12px;
+         }
+         .tabla-resumen-cuentas.titulo-tabla {
+         margin-top: 10px;
+         }
+         .tabla-resumen-cuentas.fondo-blanco, .tabla-resumen-habito-pago.fondo-blanco
+         {
+         background: #FFF;
+         }
+         .tabla-comportamiento {
+         display: grid;
+         grid-template-columns: repeat(28, 1fr);
+         font-family: "Courier New", Courier, monospace !important;
+         font-weight: bold;
+         }
+         .tittle-panel, .titulo-span {
+         background: #d5e0ed;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86;
+         padding-top: 0.6em !important;
+         padding-bottom: 0.2em !important;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 18px;
+         }
+         .columns-head-table {
+         background: #f0efef;
+         border-top: 0.01em solid #fff;
+         border-bottom: 0.01em solid #fff;
+         border-left: 0.01em solid #dbe7ea;
+         border-right: 0.01em solid #dbe7ea;
+         color: #413e86;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         text-align: center !important;
+         }
+         /* Estilos Personalizados Endeudamiento Actual */
+         table {
+         border-spacing: 0px !important;
+         border-collapse: separate;
+         }
+         .sin-padding-endeudamiento-actual{
+         padding: 0px 0px 0px 0px;
+         }
+         .clase-global-endeudamiento-actual{
+         background: #dbe7ea;
+         border-right: 2px solid #dbe7ea;
+         }
+         .clase-global-totales-endeudamiento-actual{
+         background: #dbe7ea;
+         border-right: 2px solid #dbe7ea;
+         border-bottom: 2px solid #dbe7ea;
+         }
+         .espacio-celdas-endeudamiento-actual{
+         border-spacing: 2px;
+         }
+         .clase-global-endeudamiento-actual-body, .clase-global-endeudamiento-actual-header{
+         width: 100% !important;
+         }
+         .columns-head-table-endeudamiento-actual{
+         background: #f0efef;
+         text-align: center;
+         color: #413e86;
+         border-left: 2px solid #dbe7ea;
+         }
+         .sector-endeudamiento-actual{
+         background: #d5e0ed;
+         }
+         .column-head-sector-endeudamiento-actual{
+         background: #d5e0ed;
+         padding: 5px 0px 4px 0px;
+         color: #413e86;
+         font-size: 13px;
+         }
+         .row-general-endeudamiento-actual {
+         background: #fff;
+         text-align: center;
+         }
+         .row-general-totales-endeudamiento-actual {
+         background: #f0efef;
+         text-align: center;
+         color: #413e90;
+         border-left: 2px solid #dbe7ea;
+         border-bottom: 2px solid #dbe7ea;
+         padding: 0px 0px 0px 0px;
+         }
+         .row-base-endeudamiento-actual{
+         border-bottom: 2px solid #dbe7ea;
+         border-left: 2px solid #dbe7ea;
+         padding: 0px 0px 0px 0px;
+         }
+         .cell-endeudamiento-actual{
+         padding: 0px 0px 0px 0px;
+         border-left: 2px solid #dbe7ea;
+         }
+         .cell-base-border-endeudamiento-actual{
+         border-bottom: 2px solid #dbe7ea;
+         height:  40px !important;
+         }
+         .cell-sin-base-border-endeudamiento-actual{
+         height:  40px !important;
+         }
+         /* Estilos Personalizados Endeudamiento Actual */
+         /* Estilos Endeudaminto global clasificado*/
+         .endeudamiento-global-principal, .endeudamiento-global-principal-header, .endeudamiento-global-principal-body{
+         width: 100% !important;
+         height: 100% !important;
+         }
+         /* Estilos Endeudaminto global clasificado*/
+         .columns-head-table-grey {
+         background: #f0efef;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         text-align: center !important;
+         padding-top: 0.2em !important;
+         padding-bottom: 0.2em !important;
+         }
+         .column-head-sector {
+         background: #d5e0ed;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .cell {
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.5em !important;
+         padding-top: 0.5em !important;
+         font-size: 12px;
+         }
+         .cell-grid {
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.3em !important;
+         padding-top: 0.3em !important;
+         font-size: 12px;
+         }
+         .cell-without-border {
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.1em !important;
+         padding-top: 0.1em !important;
+         font-size: 12px;
+         }
+         .cell-special-font {
+         font-family: "Courier New", Courier, monospace;
+         font-size: 12px;
+         text-align: center;
+         font-weight: bold;
+         }
+         .cell-totals-grey {
+         background: #f0efef;
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 4px !important;
+         padding-top: 4px !important;
+         font-size: 12px;
+         }
+         .row-subtotal {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         color: #413e90;
+         background: #d5e0ed;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .row-subtotal-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         color: #413e90;
+         background: #f0efef;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .cell-subtable-habito-pago {
+         padding: 0;
+         }
+         .cell-subtotal-sector {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #fff;
+         padding-top: 5px !important;
+         padding-bottom: 2px !important;
+         }
+         .cell-subtotal-sector-item {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         background: #fff;
+         padding-top: 5px !important;
+         padding-bottom: 2px !important;
+         }
+         .cell-subtotal-total {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         }
+         .cell-subtotal-total-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         }
+         .cell-subtotal-total-item {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         background: #f0efef;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         }
+         .cell-subtotal-total-item-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         }
+         .columns-subtable {
+         border: 0.01em solid #dbe7ea;
+         color: #413e90;
+         text-align: center !important;
+         background: #f0efef !important;
+         text-decoration: none !important;
+         font-family: arial;
+         font-size: 12px !important;
+         font-weight: normal;
+         line-height: 1em;
+         padding-bottom: 0.5em !important;
+         padding-top: 0.5em !important;
+         } 
+      </style>
+      <style media="print"> /** impresion */
+         * {
+         font-size: 8px !important;
+         }
+         .z-window {
+         overflow: hidden;
+         zoom: 1;
+         border: 1px solid #a8a8a8;
+         -webkit-border-radius: 0px;
+         -moz-border-radius: 0px;
+         -o-border-radius: 0px;
+         -ms-border-radius: 0px;
+         border-radius: 0px;
+         padding: 0px;
+         background-color: #f9fcff;
+         }
+         body {
+         padding: 0;
+         width: 100%;
+         margin-left: 0.5cm !important;
+         margin-right: 0cm !important;
+         padding-right: 0cm !important;
+         font-size: 10px !important;
+         font-family: sans-serif !important;
+         }
+         @page {
+         padding: 0cm;
+         margin-bottom: 1cm !important;
+         margin-top: 1cm !important;
+         margin-right: 0cm !important;
+         padding-right: 0cm !important;
+         }
+         @font-face {
+         font-family: 'sans-serif';
+         font-weight: normal;
+         font-style: normal;
+         font-size: 20px;
+         }
+         html {
+         font-family: arial;
+         margin-right: 12px;
+         padding-right: 12px;
+         }
+         .mayusculas {
+         color: #FFF !important;
+         text-transform: uppercase;
+         }
+         .mayusculas-black {
+         text-transform: uppercase;
+         font-size: 12px;
+         color: #000000 !important;
+         }
+         .transparente {
+         background: transparent !important;
+         }
+         .z-grid-header {
+         width: 100% !important;
+         }
+         z-grid-header table {
+         width: 100% !important;
+         }
+         .z-grid-header-border {
+         width: 100% !important;
+         }
+         .z-grid-body {
+         width: 100% !important;
+         }
+         .z-grid {
+         width: 100% !important;
+         }
+         .clear {
+         display: block;
+         clear: both;
+         }
+         .right {
+         float: right !important;
+         }
+         .finanzauto {
+         min-width: 1280px
+         }
+         .finanzauto .z-window-content {
+         padding: 0;
+         width: 98%;
+         }
+         .finanzauto .header {
+         border-bottom: 1px solid #8dc03d;
+         }
+         .finanzauto .header .logo {
+         padding: 11px 42px;
+         }
+         .finanzauto .header .user-data .z-label {
+         font-family: oswaldlight;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner+.z-hlayout-inner {
+         padding: 11px 42px 11px 0px;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner:FIRST-CHILD {
+         float: left;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner+.z-hlayout-inner .z-label
+         {
+         font-size: 1.167em;
+         }
+         .finanzauto .footer {
+         background: rgb(44, 82, 124);
+         border-top: 1px solid #8dc03d;
+         padding-top: 15px;
+         text-align: center;
+         }
+         .finanzauto .footer .z-label {
+         color: #FFFFFF;
+         font-family: oswaldlight;
+         font-size: 1.167em;
+         }
+         .content {
+         background: url("/images/content/pattern-elaq.png") repeat 0 0;
+         padding-right: 15px;
+         width: 100%;
+         /*margin: 0 auto;*/
+         /*padding-left: 32px;/*
+         }
+         .content .contenido {
+         /*padding: 25px 60px 0px;*/
+         }
+         .content .contenido .encabezado {
+         padding-bottom: 20px;
+         padding-top: 20px;
+         }
+         .content .z-datebox {
+         width: 90%;
+         }
+         .content .z-datebox-icon.z-icon-calendar {
+         display: none;
+         }
+         .content .z-datebox-button {
+         background: url("/images/content/Calendario.png") no-repeat 0 0;
+         border: none;
+         }
+         .content .z-datebox-input {
+         border: 1px solid rgb(44, 82, 124);
+         /*width: 100%;*/
+         border-radius: 5px;
+         }
+         .content .topper-actions .btn-nextform:ACTIVE, .content .btn-nextform:FOCUS
+         {
+         background: #8dc03d;
+         }
+         .content .topper-actions .btn-nextform:HOVER {
+         background: #8dc03d;
+         border: none;
+         }
+         .content .topper-actions .btn-nextform, .content .form .boton-comite {
+         background: #8dc03d;
+         }
+         .boton-comite {
+         }
+         .content .topper-actions {
+         float: right;
+         margin-bottom: 10px;
+         display: none;
+         }
+         .content .outter-tab.z-tabbox, .content .all-outter-tab.z-tabbox {
+         clear: both;
+         }
+         .content .z-tabpanels {
+         background-color: #FFFFFF;
+         }
+         .cb_big.z-checkbox input[type="checkbox"], .rb_big.z-radiogroup .z-radio input[type="radio"]
+         {
+         }
+         .bloque.center {
+         width: 100%;
+         }
+         .content .z-tab {
+         border: none;
+         }
+         .content .outter-tab>.z-tabs .z-tab, .content .all-outter-tab>.z-tabs .z-tab
+         {
+         border-radius: 0;
+         background: transparent;
+         -webkit-border-radius: 0;
+         }
+         .content .outter-tab>.z-tabs {
+         background: rgb(44, 82, 124);
+         }
+         .content .all-outter-tab>.z-tabs {
+         background: #FFFFFF;
+         }
+         .content .z-tabs-content {
+         border-bottom: none;
+         !important;
+         }
+         .content .z-tabpanel {
+         border: none;
+         padding: 0;
+         }
+         .content .outter-tab>.z-tabpanels {
+         padding-top: 6px;
+         }
+         .content .inner-tab .z-tabpanel {
+         /*padding: 25px 60px 0px;*/
+         }
+         .content .outter-tab>.z-tabs .z-tab-selected {
+         background: #FFF;
+         border-top: 2px solid #8dc03d;
+         }
+         .content .inner-tab>.z-tabs .z-tab-selected {
+         -webkit-border-radius: 4px;
+         background: #8dc03d;
+         border-radius: 4px;
+         margin: 0 9px;
+         }
+         .content .z-tab-selected .z-tab-text . .z-radio-content,
+         .z-checkbox-content {
+         font-family: inherit;
+         font-weight: bold;
+         font-size: 14px;
+         color: #FFFFFF;
+         }
+         .content .outter-tab>.z-tabs .z-tab-selected .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-selected .z-tab-text
+         {
+         color: rgb(44, 82, 124);
+         }
+         .content .inner-tab>.z-tabs .z-tab-selected .z-tab-text {
+         color: #FFFFFF;
+         }
+         .content .z-tab-text {
+         padding: 4px 25px 2px;
+         font-family: inherit;
+         font-weight: bold;
+         font-size: 14px;
+         color: #FFFFFF;
+         }
+         .content .z-tab-text, .like-tab span {
+         padding: 4px 25px 2px;
+         font-family: inherit;
+         font-weight: bold;
+         font-size: 14px;
+         color: #FFFFFF;
+         }
+         .content .inner-tab>.z-tabs .z-tab-text {
+         padding: 0px 25px 2px;
+         }
+         .content .z-tab {
+         }
+         .content .inner-tab>.z-tabs .z-tab {
+         }
+         .content .z-tab.z-tab-disabled {
+         filter: alpha(opacity = 100);
+         opacity: 1;
+         }
+         .content .outter-tab>.z-tabs .z-tab.z-tab-disabled, .content .all-outter-tab>.z-tabs .z-tab.z-tab-disabled
+         {
+         background: rgb(44, 82, 124);
+         }
+         .content .inner-tab>.z-tabs .z-tab.z-tab-disabled {
+         background: #FFFFFF;
+         }
+         .content .outter-tab>.z-tabs .z-tab.z-tab-disabled+.z-tab.z-tab-disabled,
+         .content .all-outter-tab>.z-tabs .z-tab.z-tab-disabled+.z-tab.z-tab-disabled
+         {
+         border-left: 1px solid #00807c;
+         }
+         .content .z-tab-disabled .z-tab-text, .content .outter-tab>.z-tabs .z-tab-text,
+         .content .all-outter-tab>.z-tabs .z-tab-text {
+         filter: alpha(opacity = 100);
+         font-family: inherit;
+         opacity: 1;
+         }
+         .content .outter-tab>.z-tabs .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-text
+         {
+         font-size: 1.167em;
+         }
+         .content .inner-tab>.z-tabs .z-tab-text {
+         font-size: 1.025em;
+         }
+         .content .outter-tab>.z-tabs .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-text
+         {
+         color: #FFFFFF;
+         }
+         .content .inner-tab>.z-tabs .z-tab-disabled .z-tab-text {
+         color: rgb(44, 82, 124);
+         }
+         .content .z-toolbar.z-toolbar-tabs {
+         border-bottom: none;
+         padding: 0;
+         background: rgb(44, 82, 124);
+         }
+         .content .z-toolbar.z-toolbar-tabs>.z-toolbar-content {
+         border-bottom: none;
+         padding: 3px;
+         }
+         .content .z-menubar, .content .z-menu-content:hover, .content .z-menu-selected>.z-menu-content,
+         .content .z-menu-content:focus {
+         background: rgb(44, 82, 124);
+         border-bottom: 1px solid rgb(44, 82, 124);
+         border-top: 1px solid rgb(44, 82, 124);
+         }
+         .content .z-menu-content:hover, .content .z-menu-selected>.z-menu-content
+         {
+         border-color: rgb(44, 82, 124);
+         }
+         .content .z-menu-selected>.z-menu-content {
+         box-shadow: none;
+         -webkit-box-shadow: none;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton {
+         border: none;
+         margin: 0;
+         padding: 0;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton:HOVER {
+         border-color: transparent;
+         background: none;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton .z-toolbarbutton-content
+         {
+         padding: 0;
+         }
+         .top-general-data {
+         text-align: right;
+         }
+         .top-general-data .form-header {
+         padding-bottom: 20px;
+         padding-top: 20px;
+         }
+         .top-general-data .form-header>.z-hlayout-inner+.z-hlayout-inner {
+         padding-left: 50px;
+         padding-right: 50px;
+         }
+         .top-general-data .form-header .z-label {
+         color: #666666;
+         font-family: oswaldlight;
+         font-size: 18px;
+         }
+         .z-textbox, .z-select, .z-datebox-input {
+         }
+         .form .z-textbox:focus, .form .z-select, .form .z-combobox-input:focus,
+         .form .z-datebox-input:focus, .form .z-intbox:focus, .form .z-select:focus,
+         .form .z-longbox:focus, .form .z-combobox-rightedge:focus, .form .z-combobox .z-combobox-input:focus
+         {
+         -webkit-box-shadow: none;
+         box-shadow: none;
+         border: 1px solid #8dc03d;
+         border-radius: 5px;
+         }
+         .form .z-combobox .z-combobox-input {
+         -webkit-border-radius: 0px;
+         border: none;
+         border-radius: 5px;
+         border-right: none;
+         width: 100%;
+         }
+         .repetible .form .z-combobox .z-combobox-input, .repetible .form .z-textbox,
+         .repetible .form .z-select, .repetible .form .z-intbox, .repetible .form .z-longbox
+         {
+         /*width: auto;*/
+         }
+         .form.form1_2>.z-hlayout-inner+.z-hlayout-inner {
+         width: 67%;
+         }
+         .form .z-textbox, .form .z-select, .form .z-intbox, .form .z-longbox {
+         border: 1px solid rgb(44, 82, 124);
+         width: 90%;
+         border-radius: 5px;
+         }
+         .form .z-combobox {
+         width: 90%;
+         }
+         .form .z-combobox .z-combobox-input {
+         border: 1px solid rgb(44, 82, 124);
+         border-radius: 5px;
+         }
+         .form .z-label, .area_comentario .z-label, .como-formulario.z-label,
+         .forma_jefes_asesores {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+         .forma_jefes_asesores .lista {
+         width: 26%;
+         }
+         .form .z-label, .area_comentario .z-label {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+         .form .z-label-two {
+         color: #393939;
+         font-weight: bold;
+         font-size: 12px;
+         }
+         .form .nit input {
+         width: 100%;
+         }
+         .form .nit>.z-hlayout-inner {
+         width: 75%;
+         }
+         .form .nit>.z-hlayout-inner+.z-hlayout-inner {
+         text-align: center;
+         width: 5%;
+         }
+         .form .nit>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner {
+         width: 10%;
+         }
+         .boton-asignar {
+         padding: 10px 0;
+         }
+         .form>.z-hlayout-inner, .form .declaracion-renta .form-column .z-hlayout-inner
+         {
+         width: 25%;
+         }
+         .form .declaracion-renta .form-column .declara_renta .z-hlayout-inner {
+         width: auto;
+         }
+         .form>.z-hlayout-inner, .form .declaracion-renta .form-column .z-hlayout-inner
+         {
+         width: 25%;
+         }
+         .form-column_2_1>.z-hlayout-inner:FIRST-CHILD {
+         width: 67%
+         }
+         .form-column_2_1>.z-hlayout-inner {
+         width: 34%;
+         }
+         .form-column_3_1>.z-hlayout-inner {
+         width: 100%;
+         }
+         .reconsideraciones_4_columnas {
+         padding-top: 10px;
+         padding-bottom: 10px;
+         }
+         .form-column_3_1 .z-textbox {
+         width: 97%;
+         }
+         .form .two-normal-columns>.z-hlayout-inner {
+         width: 45.5%;
+         font-size: 10px;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner:FIRST-CHILD {
+         width: 25%;
+         }
+         .reconsideraciones_4_columnas>.z-hlayout-inner {
+         width: 20%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner,
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 10%;
+         }
+         .form-column_documento>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 14%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner,
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 19%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 17%;
+         }
+         .form-column_1_2>.z-hlayout-inner:FIRST-CHILD {
+         width: 34%;
+         }
+         .form-column_1_2>.z-hlayout-inner:FIRST-CHILD input, .form-column_1_2>.z-hlayout-inner:FIRST-CHILD select
+         {
+         width: 91%;
+         }
+         .form-column_1_2>.z-hlayout-inner input, .form-column_1_2>.z-hlayout-inner select,
+         .form-column_2_1>.z-hlayout-inner input {
+         width: 95%;
+         }
+         .form-column_1_2>.z-hlayout-inner {
+         width: 66%;
+         }
+         .form-column_1_2>.z-hlayout-inner+.z-hlayout-inner .form-column {
+         width: 95%;
+         }
+         .form-column>.z-hlayout-inner:FIRST-CHILD {
+         width: 34%;
+         }
+         .form-column>.z-hlayout-inner, .form-column_2_1>.z-hlayout-inner {
+         padding-right: 0px !important;
+         }
+         .form-column>.z-hlayout-inner {
+         width: 33%;
+         }
+         .add-remove-block-reco {
+         width: 100%;
+         }
+         .form-column_two>.z-hlayout-inner {
+         width: 50%;
+         }
+         .form-column>.z-vlayout-inner {
+         margin-bottom: 15px;
+         }
+         .form-column .two-inner-columns>.z-hlayout-inner, .two_columns div {
+         width: 50%;
+         }
+         .fake-tab {
+         }
+         .fake-tab>.z-hlayout-inner {
+         width: 100%;
+         color: rgb(44, 82, 124);
+         text-align: center;
+         margin-top: 55px;
+         }
+         .fake-tab .button-container {
+         padding-top: 15px;
+         }
+         .button-container {
+         background: #FFFFFF;
+         border-bottom: 2px solid #8dc03d;
+         text-align: center;
+         }
+         .z-button, .z-button[disabled] {
+         -webkit-border-radius: 2px;
+         background: rgb(44, 82, 124);
+         border-radius: 2px;
+         border: none;
+         color: #FFFFFF;
+         font-family: Arial;
+         font-weight: bold;
+         text-shadow: none;
+         }
+         .z-button:HOVER {
+         background: rgb(44, 82, 124);
+         border: 1px solid;
+         border-color: #8dc03d;
+         }
+         .z-button:ACTIVE {
+         background: rgb(44, 82, 124);
+         }
+         .z-button:FOCUS {
+         background: rgb(44, 82, 124);
+         box-shadow: none;
+         color: #FFF;
+         -webkit-box-shadow: none;
+         }
+         .content .tipocodeudor {
+         border-bottom: 1px dashed #a9a9a9;
+         padding-bottom: 5px;
+         padding-right: 32px;
+         text-align: right;
+         }
+         .content .tipocodeudor .z-select {
+         border: 1px solid #8dc03d;
+         }
+         .content .update-tipodeudor:HOVER {
+         background: #8dc03d;
+         border: none;
+         }
+         .content .update-tipodeudor:FOCUS {
+         background: #8dc03d;
+         }
+         .content .update-codeudor {
+         background: #8dc03d;
+         }
+         .inner-tab.z-tabbox.z-tabbox-top {
+         padding-top: 10px;
+         }
+         .button-pageselector-container {
+         padding: 60px 0;
+         text-align: center;
+         }
+         .button-pageselector-container .z-button {
+         }
+         .button-pageselector-container .top-button {
+         margin-bottom: 15px;
+         }
+         .tipocodeudor .readonly {
+         color: #393939;
+         font-size: 14px;
+         }
+         .add-remove-block, .block_xmls {
+         /*border-bottom: 1px dashed #8dc03d;*/
+         margin-bottom: 15px;
+         width: 100%;
+         /*padding: 15px;*/
+         }
+         .z-tabbox-icon.z-tabbox-right-scroll, .z-tabbox-icon.z-tabbox-left-scroll
+         {
+         top: 5px;
+         }
+         .alfresco-iframe {
+         width: 100%;
+         }
+         .form .form-comment {
+         margin-top: 15px;
+         margin-bottom: 10px;
+         }
+         .form .comment-area.z-textbox {
+         width: 95%
+         }
+         .codeudor_block.z-div {
+         padding-top: 15px;
+         padding-bottom: 15px;
+         text-align: right;
+         padding-right: 60px;
+         }
+         .codeudor_block.z-div .z-checkbox-content {
+         font-size: 15px;
+         }
+         .area_comentario {
+         margin-top: 20px;
+         }
+         .center .check_reco input[type="checkbox"] {
+         }
+         .center .check_reco_radio input[type="radio"] {
+         }
+         .check_reco_radio input[type="radio"] {
+         }
+         .area_comentario .z-textbox {
+         height: auto;
+         font-size: 15px;
+         line-
+         }
+         div.z-tabpanel-content {
+         display: block !important;
+         }
+         .center {
+         text-align: center;
+         }
+         .warning {
+         text-align: justify;
+         width: 90%;
+         }
+         .warning span.z-label {
+         color: #B68C40;
+         font-size: 11px;
+         font-family: arial;
+         }
+         .declaracion-renta .form-column.z-hlayout {
+         padding-bottom: 5px;
+         }
+         .check_prioridad {
+         clear: both;
+         padding-bottom: 15px;
+         text-align: right;
+         padding-right: 50px;
+         }
+         .check_prioridad .z-checkbox-content {
+         color: #666666;
+         font-size: 15px;
+         }
+         .form .z-label.error, .error {
+         color: red;
+         }
+         .form .z-label.error {
+         color: red;
+         }
+         .success {
+         color: green;
+         }
+         .success-reco {
+         padding-left: 15px;
+         color: green;
+         font-weight: bold;
+         }
+         .z-tabbox-accordion .z-tabpanel>.z-tab {
+         border-width: 0 1px 1px 1px;
+         -webkit-border-radius: 0;
+         border-radius: 0;
+         padding-top: 1px;
+         text-align: left;
+         float: none;
+         zoom: 1;
+         background: rgb(44, 82, 124);
+         cursor: text;
+         text-transform: uppercase;
+         }
+         .z-tabbox-accordion .z-tabpanel>.z-tab, .like-tab {
+         border-width: 0 1px 1px 1px;
+         -webkit-border-radius: 0;
+         border-radius: 0;
+         padding-top: 1px;
+         text-align: left;
+         float: none;
+         zoom: 1;
+         background: rgb(44, 82, 124);
+         cursor: text;
+         text-transform: uppercase;
+         }
+         .like-tab {
+         padding-top: 8px;
+         }
+         .form .z-a {
+         font-family: arial;
+         font-size: 12px;
+         border-radius: 2px;
+         padding: 5px 11px;
+         border: 1px solid transparent;
+         cursor: pointer;
+         background-color: #8dc03d;
+         border-color: #8dc03d;
+         color: #FFFFFF;
+         text-decoration: none;
+         font-weight: bold
+         }
+         .z-tabbox-accordion .z-tabpanel>.z-tabpanel-content {
+         border: 1px solid #cfcfcf;
+         border-top: 0;
+         padding: 5px 5px 5px 5px;
+         zoom: 1;
+         }
+         .form .input-error {
+         border: 2px solid red;
+         -webkit-border-radius: 5px;
+         border-radius: 5px;
+         }
+         z-radio-content, .z-checkbox-content, .z-loading {
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .repetible .form {
+         padding: 10px 0 10px 15px;
+         }
+         .reconsideraciones .botones {
+         padding-left: 15px;
+         padding-bottom: 10px;
+         }
+         .linea .z-hlayout-inner, .tres_columnas, .form .linea .z-combobox {
+         width: 100%;
+         }
+         .repetible .form .tres_columnas .z-vlayout input {
+         width: 95%;
+         }
+         .linea .tres_columnas .z-hlayout-inner {
+         width: 33%;
+         }
+         .reconsideraciones .repetible .panel {
+         border-bottom: 1px solid #CCC;
+         }
+         .reconsideraciones .contenedor-inferior {
+         padding-top: 25px;
+         }
+         .reconsideraciones .repetible .concesionario input.z-textbox,
+         .reconsideraciones .repetible .concesionario input.z-combobox-input {
+         }
+         .reconsideraciones .reconsideracion-comentario {
+         margin: 0 auto;
+         width: 95%;
+         padding-bottom: 10px;
+         padding-top: 10px;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-textbox {
+         width: 100%;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-label, .repetible .title
+         {
+         font-weight: bold;
+         }
+         .observaciones_comite.form>.z-hlayout-inner {
+         width: 48%;
+         }
+         .observaciones_comite .fila>.z-hlayout-inner:first-child {
+         width: 40%;
+         }
+         .contenedor-tabla-tramite {
+         background: #FFF;
+         padding: 15px;
+         }
+         .contenedor-carpeta-giro {
+         background: #FFF;
+         padding: 15px;
+         }
+         .tabla-tramite {
+         margin: 0 auto;
+         }
+         .captura_documentos {
+         text-align: left;
+         }
+         .observaciones_comite .form-column:first-child .fila>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 46%;
+         }
+         .observaciones_comite .z-hlayout-inner+.z-hlayout-inner .fila>.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 46%;
+         }
+         .observaciones_comite .z-hlayout-inner:first-child .form-column .fila .z-checkbox
+         {
+         margin: 0px 13px;
+         }
+         .z-timebox-input {
+         font-family: Arial, Sans-serif;
+         font-size: 12px;
+         font-weight: normal;
+         font-style: normal;
+         border: 1px solid rgb(44, 82, 124);
+         border-radius: 5px;
+         margin: 0;
+         padding: 4px 40px;
+         line-
+         }
+         .prueba .z-grid {
+         border: 1px solid #cfcfcf;
+         overflow: hidden;
+         zoom: 1;
+         }
+         .Estilo1 {
+         font-family: "Times New Roman", Times, serif
+         }
+         .Estilo2 {
+         font-size: 12px
+         }
+         .Estilo3 {
+         font-size: 10px;
+         }
+         .titulo-reconsideracion {
+         text-align: left;
+         background: rgb(44, 82, 124);
+         cursor: text;
+         text-transform: uppercase;
+         padding: 10px 10px;
+         margin-bottom: 5px;
+         }
+         .titulo-reconsideracion span {
+         font-size: 14px;
+         color: #FFF;
+         font-weight: bold;
+         }
+         .titulos {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background-color: #d5e0ed !important;
+         border-color: #d5e0ed !important;
+         color: #413e86 !important;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         -webkit-print-color-adjust: exact;
+         }
+         .titulos_datacredito {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background: #d5e0ed !important;
+         border-color: #d5e0ed !important;
+         color: #413e86 !important;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .titulos_negrita_datacredito {
+         font-weight: bold;
+         background: #f0efef !important;
+         color: #413e90 !important;
+         border: #f0efef;
+         text-align: center;
+         }
+         .titulo {
+         margin-left: 10px;
+         text-transform: uppercase;
+         color: #413e86 !important;
+         -webkit-print-color-adjust: exact;
+         }
+         .titulos_negrita {
+         font-weight: bold;
+         }
+         .tabla {
+         margin-top: 5px;
+         border: none;
+         width: 99%;
+         }
+         .texto-normal, .texto-normal * {
+         font-weight: normal !important;
+         }
+         .tabla_datos_credito {
+         margin-top: 5px;
+         border-collapse: collapse;
+         border: rgb(44, 82, 124) 1px solid !important;
+         }
+         .Estilo4 {
+         font-size: 9px;
+         }
+         .Estilo5 {
+         font-size: 13px;
+         font-weight: bold;
+         }
+         .Estilo7 {
+         font-size: 12px;
+         font-weight: bold;
+         }
+         .Estilo8 {
+         font-size: 11px;
+         }
+         .encabezado_titulo {
+         font-size: 14px;
+         font-weight: bold;
+         padding-left: 8px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .Tablafirmas {
+         border-collapse: collapse;
+         background-color: #eeeeee;
+         border: 1px solid #cfcfcf;
+         font-weight: bold;
+         color: #636363;
+         font-size: 12px;
+         }
+         .resultado_xsl {
+         font-size: 14px;
+         padding-left: 10px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .resultado_margen {
+         padding-left: 10px;
+         text-transform: uppercase;
+         font-size: 14px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .resultado_numerico {
+         text-align: right;
+         padding-right: 10px;
+         font-size: 14px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .titulos_check {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background: rgb(44, 82, 124);
+         border-color: rgb(44, 82, 124);
+         color: white;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .completos {
+         }
+         .z-combobox-disabled *, .z-bandbox-disabled *, .z-datebox-disabled *,
+         .z-timebox-disabled *, .z-spinner-disabled *,
+         .z-doublespinner-disabled *, .z-textbox[readonly], .z-decimalbox[readonly],
+         .z-intbox[readonly], .z-longbox[readonly], .z-doublebox[readonly],
+         .z-textbox[disabled], .z-decimalbox[disabled], .z-intbox[disabled],
+         .z-longbox[disabled], .z-doublebox[disabled], .z-combobox-input[readonly],
+         .z-bandbox-input[readonly], .z-datebox-input[readonly],
+         .z-timebox-input[readonly], .z-spinner-input[readonly],
+         .z-doublespinner-input[readonly], button:disabled, select:disabled,
+         option:disabled, select[disabled]>option {
+         color: #000 !important;
+         background: #f0f0f0 !important;
+         font-weight: bold;
+         }
+         .z-combobox-disabled, .z-bandbox-disabled, .z-datebox-disabled,
+         .z-timebox-disabled, .z-spinner-disabled, .z-doublespinner-disabled,
+         .z-combobox-disabled *, .z-bandbox-disabled *, .z-datebox-disabled *,
+         .z-timebox-disabled *, .z-spinner-disabled *,
+         .z-doublespinner-disabled *, .z-textbox[readonly], .z-decimalbox[readonly],
+         .z-intbox[readonly], .z-longbox[readonly], .z-doublebox[readonly],
+         .z-textbox[disabled], .z-decimalbox[disabled], .z-intbox[disabled],
+         .z-longbox[disabled], .z-doublebox[disabled], .z-combobox-input[readonly],
+         .z-bandbox-input[readonly], .z-datebox-input[readonly],
+         .z-timebox-input[readonly], .z-spinner-input[readonly],
+         .z-doublespinner-input[readonly] {
+         opacity: 1;
+         filter: alpha(opacity = 100);
+         width: 90%;
+         }
+         .no-bold, .no-bold .z-checkbox-content {
+         font-weight: normal !important;
+         }
+         .boton_resp_comite {
+         padding-left: 80px;
+         }
+         .form .celdas, .z-listcell-content {
+         font-weight: bold;
+         overflow: auto;
+         }
+         .check_auditoria, .z-listcell-content {
+         font-family: Arial, Sans-serif;
+         font-size: 12px;
+         font-weight: normal;
+         text-transform: uppercase;
+         }
+         .fondo-blanco {
+         background: #FFF;
+         }
+         .z-grid {
+         overflow: auto;
+         border: 1px;
+         }
+         .top-general-data .form-header  .nombre_deudor {
+         font-weight: bold;
+         font-family: arial;
+         font-size: 20px;
+         }
+         .reconsideraciones  .botones  .botones_reconsideraciones input[type="radio"],
+         .decision_comite  .botones_decision_comite input[type="radio"] {
+         }
+         .textoNumerico {
+         text-align: right;
+         }
+         .repetible .form {
+         padding: 10px 0 10px 15px;
+         }
+         .reconsideraciones .botones {
+         padding-left: 15px;
+         padding-bottom: 10px;
+         }
+         .tres_columnas, .form .linea .z-combobox {
+         width: 100%;
+         }
+         .repetible .form .tres_columnas .z-vlayout input {
+         width: 95%;
+         }
+         .reconsideraciones .repetible .panel {
+         border-bottom: 1px solid #CCC;
+         }
+         .reconsideraciones .contenedor-inferior {
+         padding-top: 25px;
+         }
+         .reconsideraciones .repetible .concesionario input.z-textbox,
+         .reconsideraciones .repetible .concesionario input.z-combobox-input {
+         }
+         .reconsideraciones .reconsideracion-comentario {
+         margin: 0 auto;
+         width: 95%;
+         padding-bottom: 10px;
+         padding-top: 10px;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-textbox {
+         width: 100%;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-label, .repetible .title
+         {
+         font-weight: bold;
+         }
+         .form .check_comite input[type="checkbox"] {
+         }
+         .textoNumerico {
+         text-align: right;
+         }
+         div.two-normal-columns .cambioDato {
+         border: 3px solid rgb(66, 144, 39);
+         }
+         .form .one-normal-columns>.z-hlayout-inner {
+         width: 100%;
+         font-size: 10px;
+         }
+         div.one-normal-columns .cambioDatoOne {
+         border: 3px solid rgb(66, 144, 39);
+         border-radius: 5px;
+         }
+         .boton-remover {
+         padding-top: 3px;
+         margin: 12px;
+         }
+         .mensaje_error_desembolso {
+         font-size: 16px;
+         color: red;
+         }
+         .unificada .margen_inferior {
+         margin-bottom: 15px;
+         }
+         .unificada .z-select, .unificada .z-textbox, .unificada .z-datebox-input,
+         .credito .z-select, .credito .z-textbox, .credito .z-datebox-input {
+         }
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner .z-vlayout-inner,
+         .credito .reconsideraciones_4_columnas+.reconsideraciones_4_columnas  .z-vlayout-inner
+         {
+         padding-bottom: 0 !important;
+         }
+         .unificada .z-combobox, .unificada .z-select, .unificada .z-textbox,
+         .credito .z-combobox, .credito .z-select, .credito .z-textbox {
+         width: 90%;
+         }
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner .z-vlayout-inner>div div,
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner>div>div.z-div,
+         .credito .reconsideraciones_4_columnas+.reconsideraciones_4_columnas  .z-vlayout-inner
+         {
+         }
+         .botones_respuesta {
+         text-align: center;
+         margin-top: 20px;
+         }
+         .aprobacion .aprobacion_titulos .z-div.margen_inferior>.z-div,
+         .aprobacion .columna .margen_superior.z-div>.z-div, .aprobacion .columna .margen_superior.z-div>.z-div .z-combobox-input,
+         .aprobacion .aprobacion_titulos>.z-div, .aprobacion .columna>.z-include .margen_inferior.z-div>.z-div
+         {
+         }
+         .panel-general {
+         border: 1px #dbe7ea solid;
+         }
+         /* .mayusculas { */
+         /* 	text-transform: uppercase; */
+         /* 	font-size: 12px; */
+         /* } */
+         .negrita {
+         font-weight: bold;
+         }
+         .panel-general, .titulo-span {
+         width: 100%;
+         font-size: 16px;
+         }
+         .alineamiento-vertical-centro {
+         vertical-align: middle;
+         }
+         .titulo-span {
+         display: block;
+         font-weight: bold;
+         }
+         .subtitulo-span {
+         background-color: rgb(44, 82, 124) !important;
+         text-align: center;
+         color: #FFF;
+         padding: 5px 0px;
+         font-size: 16px;
+         }
+         .subtitulo-panel, .vectores-contenedor-tabla.subtitulo-panel,
+         .pago-obligaciones-abiertas-contenedor-tabla.subtitulo-panel,
+         .pago-obligaciones-cerradas-contenedor-tabla.subtitulo-panel,
+         .consultas-contenedor-tabla.subtitulo-panel,
+         .consultas-contenedor-tabla-fechas.subtitulo-panel, .tabla.subtitulo-panel
+         {
+         background: #f0efef !important;
+         color: #413e86;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .vectores-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 18% 8% 4% 6% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .grid-item-align-center {
+         align-self: center;
+         font-size: 12px;
+         }
+         .grid-item-align-left {
+         align-self: center;
+         text-align: left;
+         }
+         .subtitulo-panel.vectores-contenedor-tabla>* {
+         background: inherit;
+         }
+         .vectores-contenedor-tabla>*,
+         .pago-obligaciones-abiertas-contenedor-tabla .contenido-tabla>*,
+         .pago-obligaciones-cerradas-contenedor-tabla .contenido-tabla>*,
+         .tabla-fondo-blanco>*, .contenido-tabla>* {
+         background: #fff !important;
+         font-size: 12px;
+         }
+         .fondo-titulo-analisis-vectores{
+         background: #f0efef !important;
+         }
+         .vectores-tabla-datos {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: repeat(24, 1fr);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         }
+         .vectores-tabla-datos-titulo {
+         background: #dbe7ea;
+         display: grid;
+         grid-template-columns: repeat(24, 1fr);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         }
+         .vectores-tabla-datos>* {
+         background: #fff !important;
+         }
+         .subtitulo-panel.vectores-contenedor-tabla .vectores-tabla-datos>* {
+         background: inherit;
+         }
+         .subtitulo-panel .z-label {
+         font-weight: bold;
+         font-size: inherit;
+         }
+         .moras {
+         grid-column: 1/5;
+         }
+         .pago-obligaciones-abiertas-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 7% 3% 8% repeat(4, 7%) 6% 6% repeat(3, 4%) 5% 21%;
+         grid-auto-rows: minmax(20px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 10% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla .entidad {
+         grid-row-end: span 3;
+         background: #fff !important;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 10% 7% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas .totales-cuentas {
+         grid-column-start: 2;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas.totales-cuentas .primera-columna	{
+         grid-column: 1/3;
+         background: #fff !important;
+         }
+         .primera-columna .transparente, .transparente>* 	{
+         background: transparent !important;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas-valores {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 28% repeat(7, 1fr);
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         font-size: 12px;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-totales-sector {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 9.9% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 2px;
+         border-left: 1px solid #dbe7ea;
+         border-top: 1px solid #dbe7ea;
+         border-bottom: 1px solid #dbe7ea;
+         }
+         .nivel-endeudamiento-abiertas-contenedor-tabla-cuentas-totales-sector {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 10% 7.5% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 2px;
+         }
+         .porcentaje-moras-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 25% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         }
+         .porcentaje-moras-contenedor-tabla-cuentas-valores {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: repeat(6, 1fr);
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 1px;
+         row-gap: 1px;
+         font-size: 12px;
+         }
+         .porcentaje-moras-contenedor-tabla-totales{
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 25% auto;
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         row-gap: 1px;
+         }
+         .pago-obligaciones-cerradas-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 9% 4% 8% repeat(2, 7%) 9% repeat(3, 7%) 4% 8% 19.5%;
+         grid-auto-rows: minmax(20px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .consultas-contenedor-tabla {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 28% 72%;
+         grid-auto-rows: minmax(20px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .consultas-contenedor-tabla-fechas {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: repeat(6, 17%);
+         grid-auto-rows: minmax(12px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         }
+         .tabla-resumen-habito-pago {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         grid-auto-rows: minmax(20px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         row-gap: 2px;
+         grid-auto-rows: minmax(20px, auto);
+         }
+         .tabla-resumen-cuentas {
+         background: #dbe7ea !important;
+         display: grid;
+         grid-template-columns: 80% 20%;
+         grid-auto-rows: minmax(20px, auto);
+         align-items: stretch;
+         text-align: center;
+         column-gap: 2px;
+         border: 2px solid #dbe7ea;
+         font-size: 12px;
+         }
+         .tabla-resumen-cuentas.titulo-tabla {
+         margin-top: 10px;
+         }
+         .tabla-resumen-cuentas.fondo-blanco, .tabla-resumen-habito-pago.fondo-blanco
+         {
+         background: #FFF !important;
+         }
+         .tabla-comportamiento {
+         display: grid;
+         grid-template-columns: repeat(28, 1fr);
+         font-family: "Courier New", Courier, monospace !important;
+         }
+         .tittle-panel, .titulo-span {
+         background: #d5e0ed !important;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86 !important;
+         padding-top: 0.6em !important;
+         padding-bottom: 0.2em !important;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 18px;
+         }
+         .columns-head-table {
+         background: #f0efef !important;
+         border-top: 0.01em solid #fff;
+         border-bottom: 0.01em solid #fff;
+         border-left: 0.01em solid #dbe7ea;
+         border-right: 0.01em solid #dbe7ea;
+         color: #413e86;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         text-align: center !important;
+         line-height: 120%;		
+         }
+         /* Estilos Personalizados Endeudamiento Actual */
+         .borrar-clases-header, .sector-endeudamiento-actual-header{
+         width: 100% !important;
+         }
+         .borrar-clases-body, .sector-endeudamiento-actual-body{
+         width: 100% !important; 
+         position: relative; 
+         overflow: hidden;
+         }
+         table {
+         border-spacing: 0px !important;
+         border-collapse: separate;
+         }
+         .sin-padding-endeudamiento-actual{
+         padding: 0px 0px 0px 0px;
+         }
+         .clase-global-endeudamiento-actual{
+         background: #dbe7ea !important;
+         border-right: 2px solid #dbe7ea;
+         }
+         .clase-global-totales-endeudamiento-actual{
+         background: #dbe7ea !important;
+         border-right: 2px solid #dbe7ea;
+         border-bottom: 2px solid #dbe7ea;
+         }
+         .columns-head-table-endeudamiento-actual{
+         background: #f0efef !important;
+         text-align: center;
+         color: #413e86 !important;
+         border-left: 2px solid #dbe7ea;
+         }
+         .sector-endeudamiento-actual{
+         background: #d5e0ed !important;
+         }
+         .column-head-sector-endeudamiento-actual{
+         background: #d5e0ed !important;
+         padding: 5px 0px 4px 0px;
+         color: #413e86 !important;
+         font-size: 13px;
+         }
+         .row-general-endeudamiento-actual {
+         background: #fff !important;
+         text-align: center;
+         }
+         .row-general-totales-endeudamiento-actual {
+         background: #f0efef !important;
+         text-align: center;
+         color: #413e90 !important;
+         border-left: 2px solid #dbe7ea;
+         border-bottom: 2px solid #dbe7ea;
+         padding: 0px 0px 0px 0px;
+         }
+         .row-base-endeudamiento-actual{
+         border-bottom: 2px solid #dbe7ea;
+         border-left: 2px solid #dbe7ea;
+         padding: 0px 0px 0px 0px;
+         }
+         .cell-endeudamiento-actual{
+         padding: 0px 0px 0px 0px;
+         border-left: 2px solid #dbe7ea;
+         text-align: center;
+         }
+         .cell-base-border-endeudamiento-actual{
+         border-bottom: 2px solid #dbe7ea;
+         height:  20px !important;
+         }
+         .cell-sin-base-border-endeudamiento-actual{
+         height:  20px !important;
+         }
+         /* Estilos Personalizados Endeudamiento Actual */
+         /* Estilos Endeudaminto global clasificado*/
+         .endeudamiento-global-principal, .endeudamiento-global-principal-header, .endeudamiento-global-principal-body{
+         width: 100% !important;
+         height: 100% !important;
+         }
+         /* Estilos Endeudaminto global clasificado*/
+         .columns-head-table-grey {
+         background: #f0efef !important;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86 !important;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         text-align: center !important;
+         padding-top: 0.2em !important;
+         padding-bottom: 0.2em !important;
+         line-height: 100%;
+         }
+         .column-head-sector {
+         background: #d5e0ed !important;
+         border: 0.01em solid #dbe7ea;
+         color: #413e86 !important;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         line-height: 100%;
+         }
+         .cell {
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.5em !important;
+         padding-top: 0.5em !important;
+         font-size: 12px;
+         }
+         .cell-grid {
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.3em !important;
+         padding-top: 0.3em !important;
+         font-size: 12px;
+         }
+         .cell-without-border {
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 0.1em !important;
+         padding-top: 0.1em !important;
+         font-size: 12px;
+         }
+         .cell-special-font {
+         font-family: "Courier New", Courier, monospace;
+         font-size: 12px;
+         text-align: center;
+         }
+         .cell-totals-grey {
+         background: #f0efef;
+         border: 0.01em solid #dbe7ea;
+         padding-left: 1px;
+         text-align: center;
+         line-height: 1em;
+         padding-bottom: 4px !important;
+         padding-top: 4px !important;
+         font-size: 12px;
+         }
+         .row-subtotal {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         color: #413e90;
+         background: #d5e0ed;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .row-subtotal-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         color: #413e90;
+         background: #f0efef;
+         text-decoration: none;
+         font-family: arial;
+         font-size: 13px;
+         }
+         .cell-subtable-habito-pago {
+         padding: 0;
+         }
+         .cell-subtotal-sector {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #fff;
+         padding-top: 5px !important;
+         padding-bottom: 2px !important;
+         }
+         .cell-subtotal-sector-item {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         background: #fff;
+         padding-top: 5px !important;
+         padding-bottom: 2px !important;
+         }
+         .cell-subtotal-total {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         }
+         .cell-subtotal-total-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         }
+         .cell-subtotal-total-item {
+         border: 0.01em solid #dbe7ea;
+         text-align: left;
+         background: #f0efef;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         }
+         .cell-subtotal-total-item-endeudamiento-actual {
+         border: 0.01em solid #dbe7ea;
+         text-align: center;
+         background: #f0efef;
+         padding-top: 7px ! important;
+         padding-bottom: 4px !important;
+         }
+         .columns-subtable {
+         border: 0.01em solid #dbe7ea;
+         color: #413e90;
+         text-align: center !important;
+         background: #f0efef !important;
+         text-decoration: none !important;
+         font-family: arial;
+         font-size: 12px !important;
+         font-weight: normal;
+         line-height: 1em;
+         padding-bottom: 0.5em !important;
+         padding-top: 0.5em !important;
+         } 
+      </style>
+      <style media="screen"> .Estilo1 {
+         font-family: "Times New Roman", Times, serif
+         }
+         .Estilo2 {
+         font-size: 12px;
+         }
+         .Estilo3 {
+         font-size: 12px;
+         }
+         .titulos {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background: #015855;
+         border-color: #015855;
+         color: white;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .titulo {
+         margin-left: 10px;
+         text-transform: uppercase;
+         }
+         .titulos_negrita {
+         font-weight: bold;
+         }
+         .tabla {
+         margin-top: 5px;
+         border: none;
+         }
+         .tabla_datos_credito {
+         margin-top: 5px;
+         border-collapse: collapse !important;
+         border: #015855 1px solid !important;
+         }
+         .Estilo4 {
+         font-size: 9px;
+         }
+         .Estilo5 {
+         font-size: 13px;
+         font-weight: bold;
+         }
+         .Estilo7 {
+         font-size: 12px;
+         font-weight: bold;
+         }
+         .Estilo8 {
+         font-size: 11px;
+         }
+         .encabezado_titulo {
+         font-size: 14px;
+         font-weight: bold;
+         padding-left: 8px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .Tablafirmas {
+         border-collapse: collapse;
+         background-color: #eeeeee;
+         border: 1px solid #cfcfcf;
+         font-weight: bold;
+         color: #636363;
+         font-size: 12px;
+         }
+         .resultado_xsl {
+         font-size: 14px;
+         padding-left: 10px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .resultado_margen {
+         padding-left: 10px;
+         text-transform: uppercase;
+         font-size: 14px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .resultado_numerico {
+         text-align: right;
+         padding-right: 10px;
+         font-size: 14px;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .titulos_check {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background: #015855;
+         border-color: #015855;
+         color: white;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         -webkit-border-radius: 6px 6px 6px 6px;
+         border-left: 1px solid #013735;
+         border-top: 1px solid #013735;
+         border-bottom: 1px solid #013735;
+         border-right: 1px solid #013735;
+         }
+         .titulos_datacredito {
+         margin-bottom: 4px;
+         margin-top: 4px;
+         background: #d5e0ed !important;
+         border-color: #d5e0ed !important;
+         color: #413e86 !important;
+         font-family: inherit;
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .titulos_negrita_datacredito {
+         font-weight: bold;
+         background: #f0efef;
+         color: #413e90;
+         border: #f0efef;
+         text-align: center;
+         } 
+      </style>
+      <style media="screen"> @font-face {
+         font-family: 'oswaldlight';
+         src: url('../fonts/oswald-light-webfont.eot');
+         src: url('../fonts/oswald-light-webfont.eot?#iefix')
+         format('embedded-opentype'), url('../fonts/oswald-light-webfont.woff')
+         format('woff'), url('../fonts/oswald-light-webfont.ttf')
+         format('truetype'),
+         url('../fonts/oswald-light-webfont.svg#oswaldlight') format('svg');
+         font-weight: normal;
+         font-style: normal;
+         }
+         @font-face {
+         font-family: 'oswaldbook';
+         src: url('../fonts/oswald-regular-webfont.eot');
+         src: url('../fonts/oswald-regular-webfont.eot?#iefix')
+         format('embedded-opentype'),
+         url('../fonts/oswald-regular-webfont.woff') format('woff'),
+         url('../fonts/oswald-regular-webfont.ttf') format('truetype'),
+         url('../fonts/oswald-regular-webfont.svg#oswaldbook') format('svg');
+         font-weight: normal;
+         font-style: normal;
+         }
+         html {
+         font-family: arial;
+         }
+         body {
+         padding: 0;
+         }
+         .f-rank-text{
+         color: #fff !important;
+         text-transform: uppercase;
+         }
+         .f-rank-input{
+         border: 1px solid #015855;
+         background: #015855;
+         color: #ffffff;
+         text-align: center;
+         font-family: Arial,Sans-serif;
+         font-size: 12px;
+         font-weight: bold;
+         font-style: normal;
+         border-radius: 5px;
+         }
+         .f-rank-long{
+         width: 90%;
+         }
+         .f-rank-label-text{
+         width: 90%;
+         border: 1px solid #015855;
+         background: #015855;
+         text-align: center;
+         font-family: Arial,Sans-serif;
+         font-size: 12px;
+         font-weight: bold;
+         font-style: normal;
+         border-radius: 5px;
+         color: #fff;
+         text-transform: uppercase;
+         }
+         .clear {
+         display: block;
+         clear: both;
+         }
+         .right {
+         float: right !important;
+         }
+         .finanzauto {
+         min-width: 1280px
+         }
+         .finanzauto .z-window-content {
+         padding: 0;
+         }
+         .finanzauto .header {
+         border-bottom: 1px solid #8dc03d;
+         }
+         .finanzauto .header .logo {
+         padding: 11px 42px;
+         }
+         .finanzauto .header .user-data .z-label {
+         font-family: oswaldlight;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner+.z-hlayout-inner {
+         float: right;
+         padding: 11px 42px 11px 0px;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner:FIRST-CHILD {
+         float: left;
+         }
+         .finanzauto .header>.z-hlayout>.z-hlayout-inner+.z-hlayout-inner .z-label
+         {
+         font-size: 1.167em;
+         }
+         .finanzauto .footer {
+         background: #015855;
+         border-top: 1px solid #8dc03d;
+         padding-top: 15px;
+         text-align: center;
+         }
+         .finanzauto .footer .z-label {
+         color: #FFFFFF;
+         font-family: oswaldlight;
+         font-size: 1.167em;
+         }
+         .content {
+         background: url("../images/content/pattern-elaq.png") repeat 0 0;
+         margin: 0 auto;
+         padding-left: 32px;
+         padding-right: 32px;
+         width: 100%;
+         }
+         .content .contenido {
+         padding: 25px 60px 0px;
+         }
+         .content .contenido .encabezado {
+         padding-bottom: 20px;
+         padding-top: 20px;
+         }
+         .content .z-datebox {
+         width: 90%;
+         }
+         .content .z-datebox-icon.z-icon-calendar {
+         display: none;
+         }
+         .content .z-datebox-button {
+         background: url("../images/content/Calendario.png") no-repeat 0 0;
+         border: none;
+         }
+         .content .z-datebox-input {
+         border: 1px solid #015855;
+         width: 100%;
+         border-radius: 5px;
+         }
+         .content .topper-actions .btn-nextform:ACTIVE, .content .btn-nextform:FOCUS
+         {
+         background: #8dc03d;
+         }
+         .content .topper-actions .btn-nextform:HOVER {
+         background: #8dc03d;
+         border: none;
+         }
+         .content .topper-actions .btn-nextform, .content .form .boton-comite {
+         background: #015855 !important;
+         color: white !important;
+         }
+         .boton-comite {
+         }
+         .content .topper-actions {
+         float: right;
+         margin-bottom: 10px;
+         }
+         .content .outter-tab.z-tabbox, .content .all-outter-tab.z-tabbox {
+         clear: both;
+         margin-bottom: 20px;
+         }
+         .content .z-tabpanels {
+         background-color: #FFFFFF;
+         }
+         .cb_big.z-checkbox input[type="checkbox"], .rb_big.z-radiogroup .z-radio input[type="radio"]
+         {
+         }
+         .bloque.center {
+         width: 100%;
+         }
+         .content .z-tab {
+         border: none;
+         }
+         .content .outter-tab>.z-tabs .z-tab, .content .all-outter-tab>.z-tabs .z-tab
+         {
+         border-radius: 0;
+         background: transparent;
+         -webkit-border-radius: 0;
+         }
+         .content .outter-tab>.z-tabs {
+         background: #015855;
+         }
+         .content .all-outter-tab>.z-tabs {
+         background: #FFFFFF;
+         }
+         .content .z-tabs-content {
+         border-bottom: none;
+         }
+         .content .z-tabpanel {
+         border: none;
+         padding: 0;
+         }
+         .content .outter-tab>.z-tabpanels {
+         padding-top: 6px;
+         }
+         .content .inner-tab .z-tabpanel {
+         padding: 25px 60px 0px;
+         }
+         .content .outter-tab>.z-tabs .z-tab-selected {
+         background: #FFF;
+         border-top: 2px solid #8dc03d;
+         }
+         .content .inner-tab>.z-tabs .z-tab-selected {
+         -webkit-border-radius: 4px;
+         background: #8dc03d;
+         border-radius: 4px;
+         margin: 0 9px;
+         }
+         .content .z-tab-selected .z-tab-text . .z-radio-content,
+         .z-checkbox-content {
+         font-family: inherit;
+         font-weight: bold;
+         font-size: 14px;
+         color: #FFFFFF;
+         }
+         .content .outter-tab>.z-tabs .z-tab-selected .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-selected .z-tab-text
+         {
+         color: #015855;
+         }
+         .content .inner-tab>.z-tabs .z-tab-selected .z-tab-text {
+         color: #FFFFFF;
+         }
+         .content .z-tab-text, .like-tab span {
+         padding: 4px 25px 2px;
+         font-family: inherit;
+         font-weight: bold;
+         font-size: 14px;
+         color: #FFFFFF;
+         }
+         .content .inner-tab>.z-tabs .z-tab-text {
+         padding: 0px 25px 2px;
+         }
+         .content .z-tab {
+         }
+         .content .inner-tab>.z-tabs .z-tab {
+         }
+         .content .z-tab.z-tab-disabled {
+         filter: alpha(opacity = 100);
+         opacity: 1;
+         }
+         .content .outter-tab>.z-tabs .z-tab.z-tab-disabled, .content .all-outter-tab>.z-tabs .z-tab.z-tab-disabled
+         {
+         background: #015855;
+         }
+         .content .inner-tab>.z-tabs .z-tab.z-tab-disabled {
+         background: #FFFFFF;
+         }
+         .content .outter-tab>.z-tabs .z-tab.z-tab-disabled+.z-tab.z-tab-disabled,
+         .content .all-outter-tab>.z-tabs .z-tab.z-tab-disabled+.z-tab.z-tab-disabled
+         {
+         border-left: 1px solid #00807c;
+         }
+         .content .z-tab-disabled .z-tab-text, .content .outter-tab>.z-tabs .z-tab-text,
+         .content .all-outter-tab>.z-tabs .z-tab-text {
+         filter: alpha(opacity = 100);
+         font-family: inherit;
+         opacity: 1;
+         }
+         .content .outter-tab>.z-tabs .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-text
+         {
+         font-size: 1.167em;
+         }
+         .content .inner-tab>.z-tabs .z-tab-text {
+         font-size: 1.025em;
+         }
+         .content .outter-tab>.z-tabs .z-tab-text, .content .all-outter-tab>.z-tabs .z-tab-text
+         {
+         color: #FFFFFF;
+         }
+         .content .inner-tab>.z-tabs .z-tab-disabled .z-tab-text {
+         color: #015855;
+         }
+         .content .z-toolbar.z-toolbar-tabs {
+         border-bottom: none;
+         padding: 0;
+         background: #015855;
+         }
+         .content .z-toolbar.z-toolbar-tabs>.z-toolbar-content {
+         border-bottom: none;
+         padding: 3px;
+         }
+         .content .z-menubar, .content .z-menu-content:hover, .content .z-menu-selected>.z-menu-content,
+         .content .z-menu-content:focus {
+         background: #015855;
+         border-bottom: 1px solid #015855;
+         border-top: 1px solid #015855;
+         }
+         .content .z-menu-content:hover, .content .z-menu-selected>.z-menu-content
+         {
+         border-color: #015855;
+         }
+         .content .z-menu-selected>.z-menu-content {
+         box-shadow: none;
+         -webkit-box-shadow: none;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton {
+         border: none;
+         margin: 0;
+         padding: 0;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton:HOVER {
+         border-color: transparent;
+         background: none;
+         }
+         .content .z-toolbar.z-toolbar-tabs .z-toolbarbutton .z-toolbarbutton-content
+         {
+         padding: 0;
+         }
+         .top-general-data {
+         text-align: right;
+         }
+         .top-general-data .form-header {
+         padding-bottom: 20px;
+         padding-top: 20px;
+         }
+         .top-general-data .form-header>.z-hlayout-inner+.z-hlayout-inner {
+         padding-left: 50px;
+         }
+         .top-general-data .form-header .z-label {
+         color: #666666;
+         font-family: arial;
+         font-size: 20px;
+         font-weight: bold;
+         }
+         .z-textbox, .z-select, .z-datebox-input, .z-decimalbox {
+         }
+         .form .z-textbox:focus, .form .z-select, .form .z-combobox-input:focus,
+         .form .z-datebox-input:focus, .form .z-intbox:focus, .form .z-select:focus,
+         .form .z-decimalbox:focus, .form .z-longbox:focus, .form .z-combobox-rightedge:focus,
+         .form .z-combobox .z-combobox-input:focus {
+         -webkit-box-shadow: none;
+         box-shadow: none;
+         border: 1px solid #8dc03d;
+         border-radius: 5px;
+         }
+         .form .z-combobox .z-combobox-input {
+         -webkit-border-radius: 0px;
+         border: none;
+         border-radius: 5px;
+         border-right: none;
+         width: 100%;
+         }
+         .repetible .form .z-combobox .z-combobox-input, .repetible .form .z-textbox,
+         .repetible .form .z-select, .repetible .form .z-intbox, .repetible .form .z-longbox
+         {
+         /*width: auto;*/
+         }
+         .form.form1_2>.z-hlayout-inner+.z-hlayout-inner {
+         width: 67%;
+         }
+         .form .z-textbox, .form .z-select, .form .z-intbox, .form .z-longbox,
+         .form .z-decimalbox:focus {
+         border: 1px solid #015855;
+         width: 90%;
+         border-radius: 5px;
+         }
+         .form .z-combobox, .form .z-decimalbox {
+         width: 90%;
+         }
+         .form .z-combobox .z-combobox-input, .form .z-decimalbox {
+         border: 1px solid #015855;
+         border-radius: 5px;
+         }
+         .forma_jefes_asesores .lista {
+         width: 26%;
+         }
+         .form .z-label, .area_comentario .z-label, .como-formulario.z-label,
+         .forma_jefes_asesores .titulo {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+         .form .z-label-two {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+         .form .nit input {
+         width: 100%;
+         }
+         .form .nit>.z-hlayout-inner {
+         width: 75%;
+         }
+         .form .nit>.z-hlayout-inner+.z-hlayout-inner {
+         text-align: center;
+         width: 5%;
+         }
+         .form .nit>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner {
+         width: 10%;
+         }
+         .boton-asignar {
+         padding: 10px 0;
+         }
+         .form>.z-hlayout-inner, .form .declaracion-renta .form-column .z-hlayout-inner
+         {
+         width: 25%;
+         }
+         .form_transporte>.z-hlayout-inner, .form .declaracion-renta .form-column .z-hlayout-inner
+         {
+         width: 20%;
+         }
+         .form>.form-column-pagos-transportes .z-hlayout-inner {
+         width: 25%;
+         }
+         .form-column-two {
+         width: 50%;
+         }
+         .form .declaracion-renta .form-column .declara_renta .z-hlayout-inner {
+         width: auto;
+         }
+         .form-column_2_1>.z-hlayout-inner:FIRST-CHILD {
+         width: 67%
+         }
+         .form-column_2_1>.z-hlayout-inner {
+         width: 34%;
+         }
+         .form-column_3_1>.z-hlayout-inner {
+         width: 100%;
+         }
+         .form-column_3_1 .z-textbox {
+         width: 97%;
+         }
+         .form .two-normal-columns>.z-hlayout-inner {
+         width: 47.5%;
+         font-size: 10px;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner:FIRST-CHILD {
+         width: 25%;
+         }
+         .reconsideraciones_4_columnas {
+         padding-top: 10px;
+         padding-bottom: 10px;
+         }
+         .reconsideraciones_4_columnas>.z-hlayout-inner {
+         width: 25%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner,
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 10%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner,
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 19%;
+         }
+         .form-column_balancegeneral>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 17%;
+         }
+         .form-column_documento>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 14%;
+         }
+         .form-column_1_2>.z-hlayout-inner:FIRST-CHILD {
+         width: 34%;
+         }
+         .form-column_1_2>.z-hlayout-inner:FIRST-CHILD input, .form-column_1_2>.z-hlayout-inner:FIRST-CHILD select
+         {
+         width: 91%;
+         }
+         .form-column_1_2>.z-hlayout-inner input, .form-column_1_2>.z-hlayout-inner select,
+         .form-column_2_1>.z-hlayout-inner input {
+         width: 95%;
+         }
+         .form-column_1_2>.z-hlayout-inner {
+         width: 66%;
+         }
+         .form-column_1_2>.z-hlayout-inner+.z-hlayout-inner .form-column {
+         width: 95%;
+         }
+         .form-column>.z-hlayout-inner:FIRST-CHILD {
+         width: 34%;
+         }
+         .form-column>.z-hlayout-inner, .form-column_2_1>.z-hlayout-inner {
+         padding-right: 0px !important;
+         }
+         .form-column>.z-hlayout-inner {
+         width: 33%;
+         }
+         .form-column_two>.z-hlayout-inner {
+         width: 50%;
+         }
+         .form-column>.z-vlayout-inner {
+         margin-bottom: 15px;
+         }
+         .form-column .two-inner-columns>.z-hlayout-inner, .two_columns div {
+         width: 52%;
+         }
+         .fake-tab {
+         }
+         .fake-tab>.z-hlayout-inner {
+         width: 100%;
+         color: #015855;
+         text-align: center;
+         margin-top: 55px;
+         }
+         .fake-tab .button-container {
+         padding-top: 15px;
+         }
+         .button-container {
+         background: #FFFFFF;
+         border-bottom: 2px solid #8dc03d;
+         text-align: center;
+         }
+         .z-button, .z-button[disabled] {
+         -webkit-border-radius: 2px;
+         background: #015855 !important;
+         border-radius: 2px;
+         border: none;
+         color: #FFFFFF !important;
+         font-family: Arial;
+         font-weight: bold;
+         text-shadow: none;
+         }
+         .z-button:HOVER {
+         background: #015855;
+         border: 1px solid;
+         border-color: #8dc03d;
+         }
+         .z-button:ACTIVE {
+         background: #015855;
+         }
+         .z-button:FOCUS {
+         background: #015855;
+         box-shadow: none;
+         color: #FFF;
+         -webkit-box-shadow: none;
+         }
+         .content .tipocodeudor {
+         border-bottom: 1px dashed #a9a9a9;
+         padding-bottom: 5px;
+         padding-right: 32px;
+         text-align: right;
+         }
+         .content .tipocodeudor .z-select {
+         border: 1px solid #8dc03d;
+         }
+         .content .update-tipodeudor:HOVER {
+         background: #8dc03d;
+         border: none;
+         }
+         .content .update-tipodeudor:FOCUS {
+         background: #8dc03d;
+         }
+         .content .update-codeudor {
+         background: #8dc03d;
+         }
+         .inner-tab.z-tabbox.z-tabbox-top {
+         padding-top: 10px;
+         }
+         .button-pageselector-container {
+         padding: 60px 0;
+         text-align: center;
+         }
+         .button-pageselector-container .z-button {
+         }
+         .button-pageselector-container .top-button {
+         margin-bottom: 15px;
+         }
+         .tipocodeudor .readonly {
+         color: #393939;
+         font-size: 14px;
+         }
+         .add-remove-block, .block_xmls {
+         border-bottom: 2px solid #8dc03d;
+         margin-bottom: 15px;
+         width: 100%;
+         padding-top: 15px;
+         padding-bottom: 15px;
+         }
+         .add-remove-block-reco {
+         width: 100%;
+         }
+         .z-tabbox-icon.z-tabbox-right-scroll, .z-tabbox-icon.z-tabbox-left-scroll
+         {
+         top: 5px;
+         }
+         .alfresco-iframe {
+         width: 100%;
+         }
+         .form .form-comment {
+         margin-top: 15px;
+         margin-bottom: 10px;
+         }
+         .form .comment-area.z-textbox {
+         width: 100%
+         }
+         .codeudor_block.z-div {
+         padding-top: 15px;
+         padding-bottom: 15px;
+         text-align: right;
+         padding-right: 60px;
+         }
+         .codeudor_block.z-div .z-checkbox-content {
+         font-size: 15px;
+         }
+         .area_comentario {
+         margin-top: 20px;
+         }
+         .area_comentario .z-textbox {
+         height: auto;
+         width: 100%;
+         }
+         div.z-tabpanel-content {
+         display: block !important;
+         }
+         .center {
+         text-align: center;
+         }
+         .center .check_reco input[type="checkbox"] {
+         }
+         .center .check_reco_radio input[type="radio"] {
+         }
+         .check_reco_radio input[type="radio"] {
+         }
+         .warning {
+         text-align: justify;
+         width: 90%;
+         }
+         .warning span.z-label {
+         color: #B68C40;
+         font-size: 11px;
+         font-family: arial;
+         }
+         .declaracion-renta .form-column.z-hlayout {
+         padding-bottom: 5px;
+         }
+         .check_prioridad {
+         clear: both;
+         padding-bottom: 15px;
+         text-align: right;
+         }
+         .check_prioridad .z-checkbox-content {
+         color: #666666;
+         font-size: 15px;
+         }
+         .form .z-label.error, .error {
+         color: red;
+         }
+         .success {
+         color: green;
+         font-weight: bold;
+         }
+         .success-reco {
+         padding-left: 15px;
+         color: green;
+         font-weight: bold;
+         }
+         .z-tabbox-accordion .z-tabpanel>.z-tab, .like-tab {
+         border-width: 0 1px 1px 1px;
+         -webkit-border-radius: 0;
+         border-radius: 0;
+         padding-top: 1px;
+         text-align: left;
+         float: none;
+         zoom: 1;
+         background: #015855;
+         cursor: text;
+         text-transform: uppercase;
+         }
+         .mayusculas {
+         text-transform: uppercase;
+         }
+         .like-tab {
+         padding-top: 8px;
+         }
+         .form .z-a {
+         font-family: arial;
+         font-size: 12px;
+         border-radius: 2px;
+         padding: 5px 11px;
+         border: 1px solid transparent;
+         cursor: pointer;
+         background-color: #015855;
+         border-color: #015855;
+         color: #FFFFFF;
+         text-decoration: none;
+         font-weight: bold
+         }
+         .z-tabbox-accordion .z-tabpanel>.z-tabpanel-content {
+         border: 1px solid #cfcfcf;
+         border-top: 0;
+         padding: 5px 5px 5px 30px;
+         zoom: 1;
+         margin-bottom: 10px;
+         }
+         .form .input-error {
+         border: 2px solid red;
+         -webkit-border-radius: 5px;
+         border-radius: 5px;
+         }
+         z-radio-content, .z-checkbox-content, .z-loading {
+         font-size: 14px;
+         font-weight: bold;
+         }
+         .repetible .form {
+         padding: 10px 0 10px 15px;
+         }
+         .reconsideraciones .botones {
+         padding-left: 15px;
+         padding-bottom: 10px;
+         }
+         .tres_columnas, .form .linea .z-combobox {
+         width: 100%;
+         }
+         .repetible .form .tres_columnas .z-vlayout input {
+         width: 95%;
+         }
+         .linea .tres_columnas .z-hlayout-inner {
+         width: 33%;
+         }
+         .reconsideraciones .repetible .panel {
+         border-bottom: 1px solid #CCC;
+         }
+         .reconsideraciones .contenedor-inferior {
+         padding-top: 25px;
+         }
+         .reconsideraciones .repetible .concesionario input.z-textbox,
+         .reconsideraciones .repetible .concesionario input.z-combobox-input {
+         }
+         .reconsideraciones .reconsideracion-comentario {
+         margin: 0 auto;
+         width: 95%;
+         padding-bottom: 10px;
+         padding-top: 10px;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-textbox {
+         width: 100%;
+         }
+         .reconsideraciones .reconsideracion-comentario .z-label, .repetible .title
+         {
+         font-weight: bold;
+         }
+         .observaciones_comite.form>.z-hlayout-inner {
+         width: 48%;
+         }
+         .observaciones_comite .fila>.z-hlayout-inner:first-child {
+         width: 40%;
+         }
+         .observaciones_comite .form-column:first-child .fila>.z-hlayout-inner+.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 46%;
+         }
+         .texto-normal, .texto-normal * {
+         font-weight: normal !important;
+         }
+         .observaciones_comite .z-hlayout-inner+.z-hlayout-inner .fila>.z-hlayout-inner+.z-hlayout-inner
+         {
+         width: 46%;
+         }
+         .observaciones_comite .z-hlayout-inner:first-child .form-column .fila .z-checkbox
+         {
+         margin: 0px 13px;
+         }
+         .z-timebox-input {
+         font-family: Arial, Sans-serif;
+         font-size: 12px;
+         font-weight: normal;
+         font-style: normal;
+         border: 1px solid #015855;
+         border-radius: 5px;
+         margin: 0;
+         padding: 4px 40px;
+         line-
+         }
+         .contenedor-tabla-tramite {
+         background: #FFF;
+         padding: 15px;
+         }
+         .contenedor-carpeta-giro {
+         background: #FFF;
+         padding: 15px;
+         }
+         .tabla-tramite {
+         margin: 0 auto;
+         }
+         .captura_documentos {
+         text-align: left;
+         }
+         .z-combobox-disabled *, .z-bandbox-disabled *, .z-datebox-disabled *,
+         .z-timebox-disabled *, .z-spinner-disabled *, .z-doublespinner-disabled *,
+         .z-textbox[readonly], .z-decimalbox[readonly], .z-intbox[readonly],
+         .z-longbox[readonly], .z-doublebox[readonly], .z-textbox[disabled],
+         .z-decimalbox[disabled], .z-intbox[disabled], .z-longbox[disabled],
+         .z-doublebox[disabled], .z-combobox-input[readonly], .z-bandbox-input[readonly],
+         .z-datebox-input[readonly], .z-timebox-input[readonly],
+         .z-spinner-input[readonly], .z-doublespinner-input[readonly], button:disabled,
+         select:disabled, option:disabled, select[disabled]>option {
+         color: #000 !important;
+         background: #f0f0f0 !important;
+         font-weight: bold;
+         }
+         .z-combobox-disabled, .z-bandbox-disabled, .z-datebox-disabled,
+         .z-timebox-disabled, .z-spinner-disabled, .z-doublespinner-disabled,
+         .z-combobox-disabled *, .z-bandbox-disabled *, .z-datebox-disabled *,
+         .z-timebox-disabled *, .z-spinner-disabled *, .z-doublespinner-disabled *,
+         .z-textbox[readonly], .z-decimalbox[readonly], .z-intbox[readonly],
+         .z-longbox[readonly], .z-doublebox[readonly], .z-textbox[disabled],
+         .z-decimalbox[disabled], .z-intbox[disabled], .z-longbox[disabled],
+         .z-doublebox[disabled], .z-combobox-input[readonly], .z-bandbox-input[readonly],
+         .z-datebox-input[readonly], .z-timebox-input[readonly],
+         .z-spinner-input[readonly], .z-doublespinner-input[readonly] {
+         opacity: 1;
+         filter: alpha(opacity = 100);
+         }
+         .no-bold, .no-bold .z-checkbox-content {
+         font-weight: normal !important;
+         }
+         .boton_resp_comite {
+         padding-left: 80px;
+         }
+         .form .celdas, .z-listcell-content {
+         font-weight: bold;
+         overflow: auto;
+         }
+         .check_auditoria, .z-listcell-content {
+         font-family: Arial, Sans-serif;
+         font-size: 12px;
+         font-weight: normal;
+         text-transform: uppercase;
+         }
+         .fondo-blanco {
+         background: #FFF;
+         }
+         .titulo-reconsideracion {
+         text-align: left;
+         background: #015855;
+         cursor: text;
+         text-transform: uppercase;
+         padding: 10px 10px;
+         margin-bottom: 5px;
+         }
+         .titulo-reconsideracion span {
+         font-size: 14px;
+         color: #FFF;
+         font-weight: bold;
+         }
+         .z-grid {
+         overflow: auto;
+         border: 1px;
+         }
+         .z-row .z-row-inner, .z-row .z-cell {
+         background: white;
+         }
+         .top-general-data .form-header  .nombre_deudor {
+         font-weight: bold;
+         font-family: arial;
+         font-size: 20px;
+         }
+         .reconsideraciones  .botones  .botones_reconsideraciones input[type="radio"],
+         .decision_comite  .botones_decision_comite input[type="radio"] {
+         }
+         .form .check_comite input[type="checkbox"] {
+         }
+         .form .check_garantias_radicacion input[type=checkbox] {
+         border: 2px solid #000000;
+         }
+         .textoNumerico {
+         text-align: right;
+         }
+         div.two-normal-columns .cambioDato {
+         border: 3px solid rgb(66, 144, 39);
+         }
+         .form .one-normal-columns>.z-hlayout-inner {
+         width: 100%;
+         font-size: 10px;
+         }
+         div.one-normal-columns .cambioDatoOne {
+         border: 3px solid rgb(66, 144, 39);
+         border-radius: 5px;
+         }
+         .boton-remover {
+         padding-top: 3px;
+         margin: 12px;
+         }
+         .mensaje_error_desembolso {
+         font-size: 16px;
+         color: red;
+         }
+         .unificada .margen_inferior {
+         margin-bottom: 15px;
+         }
+         .unificada .z-select, .unificada .z-textbox, .unificada .z-datebox-input,
+         .credito .z-select, .credito .z-textbox, .credito .z-datebox-input {
+         }
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner .z-vlayout-inner,
+         .credito .reconsideraciones_4_columnas+.reconsideraciones_4_columnas .z-vlayout-inner
+         {
+         padding-bottom: 0 !important;
+         }
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner .z-vlayout-inner>div div,
+         .unificada .reconsideraciones_4_columnas>.z-hlayout-inner>div>div.z-div,
+         .credito .reconsideraciones_4_columnas+.reconsideraciones_4_columnas  .z-vlayout-inner
+         {
+         }
+         .aprobacion .aprobacion_titulos .z-div.margen_inferior>.z-div,
+         .aprobacion .columna .margen_superior.z-div>.z-div, .aprobacion .columna .margen_superior.z-div>.z-div .z-combobox-input,
+         .aprobacion .aprobacion_titulos>.z-div, .aprobacion .columna>.z-include .margen_inferior.z-div>.z-div
+         {
+         }
+         .z-row:hover>.z-row-inner, .z-row:hover>.z-cell {
+         background: #FFF;
+         }
+         .z-messagebox-window.z-window.z-window-highlighted.z-window-shadow .z-window-icon.z-window-close
+         {
+         display: none;
+         }
+         .form_programacion .z-textbox {
+         border: 1px solid #015855;
+         width: 100%;
+         border-radius: 5px;
+         }
+         .form_programacion .z-label, .area_comentario .z-label, .como-formulario.z-label
+         {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+         .hlayout_campanias{
+         text-align: right !important;
+         }
+         .boton_imprimir_campanias {
+         margin-bottom: 10px;
+         background: #8dc03d;
+         border: none;
+         background: #015855 !important;
+         color: white !important;
+         }
+         .form_transporte .z-textbox, .form_transporte .z-select, .form_transporte .z-intbox, .form_transporte .z-longbox,
+         .form_transporte .z-decimalbox	 {
+         border: 1px solid #015855;
+         width: 90%;
+         border-radius: 5px;
+         }
+         .form_transporte .z-label {
+         color: #393939;
+         font-weight: bold;
+         font-size: 14px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="lFdZsw" class="z-div">
+         <div id="lFdZ1q0" class="comentario_block z-include">
+            <div id="lFdZ2q0" class="z-div">
+               <div id="lFdZbj-chdex" class="z-vlayout-inner" style="">
+                  <span id="lFdZbj" class="z-html">
+                     <table class="titulos_datacredito" width="100%">
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <div class="titulo">Testttttt</div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <table border="1" width="100%">
+                        <tbody>
+                           <tr class="titulos_negrita_datacredito">
+                              <td align="center" width="20%"><span class="Estilo2">1</span></td>
+                              <td width="20%">
+                                 <div align="center">
+                                    <span class="Estilo2">2</span>
+                                 </div>
+                              </td>
+                              <td class="Estilo2" align="center" width="20%"><span>3</span></td>
+                              <td width="20%">
+                                 <div align="center">
+                                    <span class="Estilo2">4</span>
+                                 </div>
+                              </td>
+                              <td width="20%" align="center"><span class="Estilo2">5</span></td>
+                           </tr>
+                           <tr>
+                              <td align="center"><span class="Estilo2">test@mail.com</span></td>
+                              <td class="Estilo2" align="center">-</td>
+                              <td class="Estilo2" align="center">
+                                 <div align="center">2013-06-01</div>
+                              </td>
+                              <td class="Estilo2" align="center">2019-07-01</td>
+                              <td class="Estilo2" align="center">1</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
