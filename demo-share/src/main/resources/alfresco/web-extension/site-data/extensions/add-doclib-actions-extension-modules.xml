@@ -1,0 +1,26 @@
+<extension>
+	<modules>
+		<module>
+			<id>Custom Action - View In Browser</id>
+			<version>1.0</version>
+			<auto-deploy>true</auto-deploy>
+			<configurations>
+				<config evaluator="string-compare" condition="DocLibActions">
+					<actions>
+						<action id="alfresco.doclib.action.viewInBrowser" icon="showmsg" type="javascript" label="View In Browser HTML">
+							<param name="function">viewInBrowser</param>
+						</action>
+					</actions>
+					<actionGroups>
+						<actionGroup id="document-browse">
+							<action index="401" id="alfresco.doclib.action.viewInBrowser" />
+						</actionGroup>
+						<actionGroup id="document-details">
+							<action index="401" id="alfresco.doclib.action.viewInBrowser" />
+						</actionGroup>
+					</actionGroups>
+				</config>
+			</configurations>
+		</module>
+	</modules>
+</extension>
